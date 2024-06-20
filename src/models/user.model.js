@@ -52,7 +52,7 @@ refreshToken:{
 },{timestamps:true});
 
 
-userSchema.pre("save", function (next)
+userSchema.pre("save", function (next)  //before saving the user to the database, we hash the password
 {
     if(!this.isModified("password")) return next()
 
