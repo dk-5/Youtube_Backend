@@ -52,12 +52,12 @@ refreshToken:{
 },{timestamps:true});
 
 
-userSchema.pre("save", function (next)  //before saving the user to the database, we hash the password
+userSchema.pre("save",async function (next)  //before saving the user to the database, we hash the password
 {
     if(!this.isModified("password")) return next()
 
 
-    this.password=bcrypt.hash(this.password,10);
+    this.password= await bcrypt.hash(this.password,10);
     next();
     
 })
