@@ -5,7 +5,15 @@ import {ApiResponse} from "../utils/ApiResponse.js"
 import {uploadoncloudinary} from "../utils/cloudinary.js"
 
 const registerUser=asyncHandler(async (req,res)=>{
-
+// get user details from frontend
+    // validation - not empty
+    // check if user already exists: username, email
+    // check for images, check for avatar
+    // upload them to cloudinary, avatar
+    // create user object - create entry in db
+    // remove password and refresh token field from response
+    // check for user creation
+    // return res
     const {fullname,email,username,password}=req.body
     // console.log("email:",email)
     if([fullname,email,username,password].some((field)=>field?.trim()===''))
@@ -58,4 +66,32 @@ const registerUser=asyncHandler(async (req,res)=>{
         )    
 })
 
-export {registerUser}
+
+const loginUser=asyncHandler(async(req,res)=>{
+     // req body -> data
+    // username or email
+    //find the user
+    //password check
+    //access and referesh token
+    //send cookie
+   
+     const {email,username,password}=req.body
+
+     if(!username || !email)
+        {
+            throw new ApiError(404,"User does not exist")
+        }
+
+     const user=await User.findOne({
+        $or:[{username},{password}]
+     })   
+     
+     const isPasswordvalid=await user.isPasswordCorrect(password)
+
+     if(!isPasswordvalid)
+        {
+            throw new ApiError(401,"Invalid User credentials")
+        }
+        
+})
+export {registerUser,loginUser}
