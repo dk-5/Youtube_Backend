@@ -75,18 +75,18 @@ userSchema.methods.generateAccessToken=async function(){
     },
 process.env.ACCESS_TOKEN_SECRET,
 {
-expiresIn:process.env.ACCESS_TOKEN_EXPIRY
+expiresIn:"1d"
 })
 }
 
-userSchema.methods.generateRefereshToken=async function(){
+userSchema.methods.generateRefreshToken=async function(){
     return jwt.sign({
         _id:this._id
         
     },
 process.env.REFRESH_TOKEN_SECRET,
 {
-expiresIn:process.env.REFRESH_TOKEN_EXPIRY
+expiresIn:"10d"
 })
 }
 export const User=mongoose.model("User",userSchema);
